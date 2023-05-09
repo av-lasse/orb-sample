@@ -8,6 +8,7 @@ orbs:
 filters: &filters
   tags:
     only: /.*/
+jobs:
 
 workflows:
   lint-pack:
@@ -39,7 +40,7 @@ workflows:
           orb-name: av-lasse/sample
           vcs-type: << pipeline.project.type >>
           requires:
-            [orb-tools/lint, orb-tools/review, orb-tools/pack, shellcheck/check]
+            - gh-cli/release
           # Use a context to hold your publishing token.
           context: orb-publishing
           filters: *filters
