@@ -49,16 +49,3 @@ workflows:
           vcs-type: << pipeline.project.type >>
           requires: [orb-tools/publish]
           filters: *filters
-          
-
-
-
-
-version: '2.1'
-orbs:
-  node: circleci/node@4.3
-workflows:
-  test-and-deploy:
-    jobs:
-      - node/test
-
