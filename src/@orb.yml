@@ -2,6 +2,7 @@ version: 2.1
 
 description: >
   Sample orb description
+  This is a longer description so that it will pass the test of 64 chars
 # What will your orb allow users to accomplish?
 # Descriptions should be short, simple, and informative.
 
