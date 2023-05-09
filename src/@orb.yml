@@ -2,12 +2,13 @@ version: 2.1
 
 description: >
   Sample orb description
+  This is a longer description so that it will pass the test of 64 chars
 # What will your orb allow users to accomplish?
 # Descriptions should be short, simple, and informative.
 
 # This information will be displayed in the orb registry and is not mandatory.
 display:
-  home_url: "https://www.example.com/docs"
+  home_url: "https://github.com/av-lasse/orb-sample/blob/main/README.md"
   source_url: "https://github.com/av-lasse/orb-sample"
 
 # If your orb requires other orbs, you can import them like this. Otherwise remove the "orbs" stanza.
