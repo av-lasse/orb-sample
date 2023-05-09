@@ -3,6 +3,7 @@ setup: true
 orbs:
   orb-tools: circleci/orb-tools@11.5
   shellcheck: circleci/shellcheck@3.1
+  gh-cli: circleci/github-cli@2.0
 
 filters: &filters
   tags:
@@ -19,6 +20,21 @@ workflows:
           filters: *filters
       - shellcheck/check:
           filters: *filters
+      - gh/release:
+          context:
+            - GITHUB_CREDS
+          filters:
+            branches:
+              only:
+                - main
+          notes-file: changelog.md
+          requires:
+            - orb-tools/lint
+            - orb-tools/review
+            - orb-tools/pack
+            - shellcheck/check
+          tag: 1.0.0
+          title: The initial release
       - orb-tools/publish:
           orb-name: av-lasse/sample
           vcs-type: << pipeline.project.type >>
@@ -33,3 +49,16 @@ workflows:
           vcs-type: << pipeline.project.type >>
           requires: [orb-tools/publish]
           filters: *filters
+          
+
+
+
+
+version: '2.1'
+orbs:
+  node: circleci/node@4.3
+workflows:
+  test-and-deploy:
+    jobs:
+      - node/test
+
