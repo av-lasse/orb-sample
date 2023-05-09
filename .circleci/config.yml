@@ -20,7 +20,7 @@ workflows:
           filters: *filters
       - shellcheck/check:
           filters: *filters
-      - gh/release:
+      - gh-cli/release:
           context:
             - GITHUB_CREDS
           filters:
