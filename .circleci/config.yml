@@ -21,6 +21,7 @@ workflows:
   release:
     jobs:
       - release:
+          context: GITHUB_CREDS
           filters:
             branches:
               only:
