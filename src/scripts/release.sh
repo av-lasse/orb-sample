@@ -23,7 +23,6 @@ main() {
 }
 
 release_github() {
-  gh pr list
   local new_tag
   new_tag="$1"
   local json
@@ -64,6 +63,7 @@ release_github() {
 }
 
 get_semver_increment() {
+  gh pr list
   local commit_subject
   commit_subject=$(git log -1 --pretty=%s.)
   semver_increment=$(echo "${commit_subject,,}" | sed -En 's/.*\[semver:(major|minor|patch|skip)\].*/\1/p')
