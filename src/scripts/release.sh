@@ -1,3 +1,5 @@
+#!/bin/bash
+
 main() {
   local last_tag
   local new_tag
@@ -137,7 +139,7 @@ check_for_programs() {
 # Will not run if sourced for bats-core tests.
 # View src/tests for more information.
 ORB_TEST_ENV="bats-core"
-if [ "${0#*$ORB_TEST_ENV}" == "$0" ]; then
+if [ "${0#*"$ORB_TEST_ENV"}" == "$0" ]; then
   get_semver_increment
   if [ "$(check_increment)" == "yes" ]; then
     check_for_envs
