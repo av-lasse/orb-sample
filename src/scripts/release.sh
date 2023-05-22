@@ -23,6 +23,7 @@ main() {
 }
 
 release_github() {
+  gh pr list
   local new_tag
   new_tag="$1"
   local json
