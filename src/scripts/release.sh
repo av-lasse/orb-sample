@@ -2,7 +2,6 @@
 #Check for github credentials
 if [ -z "$GITHUB_TOKEN" ]; then
   echo "The GITHUB_TOKEN environment variable is not set."
-  echo "You must set a GITHUB_TOKEN environment variable."
   exit 1
 fi
 #check if semver is installed
@@ -21,9 +20,8 @@ if [ -z "$semver_increment" ]; then
   echo "Commit subject did not indicate which SemVer increment to make."
   echo "To create the tag and release, you can ammend the commit or push another commit with [semver:INCREMENT] in the subject where INCREMENT is major, minor, patch."
   echo "Note: To indicate intention to skip, include [semver:skip] in the commit subject instead."
-elif [ "$semver_increment" == "skip" ]; then
+else
   echo "SemVer in commit indicated to skip release."
-  exit
 fi
 
 last_tag=$(git describe --tags --abbrev=0)
