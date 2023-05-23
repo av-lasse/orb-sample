@@ -1,5 +1,7 @@
 #!/bin/bash
 
+INCREMENT_BY_DEFAULT=0
+
 main() {
   local last_tag
   local new_tag
@@ -66,13 +68,12 @@ get_semver_increment() {
   gh pr list
   local pr_number
   pr_number=$(git log -1 --pretty=%s. | sed 's/^[^0-9]*\([0-9]\+\).*/\1/')
-  semver_increment=$(gh pr view "${pr_number}" --json title | sed -En 's/.*\[semver:(major|minor|patch|skip)\].*/\1/p')
+  semver_increment=$(gh pr view "$pr_number" --json title | sed -En 's/.*\[semver:(major|minor|patch|skip)\].*/\1/p')
   if [ -z "$semver_increment" ] && [ "$INCREMENT_BY_DEFAULT" == "1" ]; then
     semver_increment="patch"
   fi
 
   echo "SemVer increment: $semver_increment"
-
   if [ -z "$semver_increment" ] && [ "$INCREMENT_BY_DEFAULT" == "0" ]; then
     echo "Commit subject did not indicate which SemVer increment to make and increment_by_default is not set to true."
     echo "To create the tag and release, you can ammend the commit or push another commit with [semver:INCREMENT] in the subject where INCREMENT is major, minor, patch."
