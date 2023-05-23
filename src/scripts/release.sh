@@ -27,18 +27,8 @@ main() {
 release_github() {
   local new_tag
   new_tag="$1"
-  local json
 
-  release_changelog=""
-  if [ "$CHANGELOG" == "1" ]; then
-    if [ "$last_tag" == "${INITIAL_VERSION_PREFIX}0.0.0" ]; then
-      release_changelog=$(git log --pretty=format:'* %s (%h)' HEAD)
-    else
-      release_changelog=$(git log --pretty=format:'* %s (%h)' "$last_tag"..HEAD)
-    fi
-  fi
-
-  gh release create "$newtag" --generate-notes
+  gh release create "$new_tag" --generate-notes
   
   echo "Release $new_tag created."
 }
