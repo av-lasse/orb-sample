@@ -64,14 +64,13 @@ release_github() {
 
 get_semver_increment() {
   gh pr list
-  local commit_subject
-  commit_subject=$(git log -1 --pretty=%s.)
-  semver_increment=$(echo "${commit_subject,,}" | sed -En 's/.*\[semver:(major|minor|patch|skip)\].*/\1/p')
+  local pr_number
+  pr_number=$(git log -1 --pretty=%s. | sed 's/^[^0-9]*\([0-9]\+\).*/\1/')
+  semver_increment=$(gh pr view ${pr_number} --json title | sed -En 's/.*\[semver:(major|minor|patch|skip)\].*/\1/p')
   if [ -z "$semver_increment" ] && [ "$INCREMENT_BY_DEFAULT" == "1" ]; then
     semver_increment="patch"
   fi
 
-  echo "Commit subject: $commit_subject"
   echo "SemVer increment: $semver_increment"
 
   if [ -z "$semver_increment" ] && [ "$INCREMENT_BY_DEFAULT" == "0" ]; then
@@ -148,4 +147,3 @@ if [ "${0#*"$ORB_TEST_ENV"}" == "$0" ]; then
     main
   fi
 fi
-
