@@ -28,13 +28,13 @@ release_github() {
   local new_tag
   new_tag="$1"
 
+  echo "Creating Release $new_tag ."
   gh release create "$new_tag" --generate-notes
   
   echo "Release $new_tag created."
 }
 
 get_semver_increment() {
-  gh pr list
   local pr_number
   pr_number=$(git log -1 --pretty=%s. | sed 's/^[^0-9]*\([0-9]\+\).*/\1/')
   semver_increment=$(gh pr view "$pr_number" --json title | sed -En 's/.*\[semver:(major|minor|patch|skip)\].*/\1/p')
