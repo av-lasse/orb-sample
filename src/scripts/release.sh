@@ -66,7 +66,7 @@ get_semver_increment() {
   gh pr list
   local pr_number
   pr_number=$(git log -1 --pretty=%s. | sed 's/^[^0-9]*\([0-9]\+\).*/\1/')
-  semver_increment=$(gh pr view ${pr_number} --json title | sed -En 's/.*\[semver:(major|minor|patch|skip)\].*/\1/p')
+  semver_increment=$(gh pr view "${pr_number}" --json title | sed -En 's/.*\[semver:(major|minor|patch|skip)\].*/\1/p')
   if [ -z "$semver_increment" ] && [ "$INCREMENT_BY_DEFAULT" == "1" ]; then
     semver_increment="patch"
   fi
