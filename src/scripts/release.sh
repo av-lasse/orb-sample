@@ -20,8 +20,6 @@ if [ -z "$semver_increment" ]; then
   echo "Commit subject did not indicate which SemVer increment to make."
   echo "To create the tag and release, you can ammend the commit or push another commit with [semver:INCREMENT] in the subject where INCREMENT is major, minor, patch."
   echo "Note: To indicate intention to skip, include [semver:skip] in the commit subject instead."
-else
-  echo "SemVer in commit indicated to skip release."
 fi
 
 last_tag=$(git describe --tags --abbrev=0)
