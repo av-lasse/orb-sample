@@ -38,28 +38,7 @@ release_github() {
     fi
   fi
 
-  json=$(jq -n \
-    --arg tag_name "$new_tag" \
-    --arg target_commitish "$CIRCLE_SHA1" \
-    --arg name "Release $new_tag" \
-    --arg body "$release_changelog" \
-    '{
-      tag_name: $tag_name,
-      target_commitish: $target_commitish,
-      name: $name,
-      body: $body,
-      draft: false,
-      prerelease: false
-    }'
-  )
-
-  curl \
-    -X POST \
-    -S -s -o /dev/null \
-    -H "Authorization: token $GITHUB_TOKEN" \
-    -H "Accept: application/vnd.github.v3+json" \
-    -d "$json" \
-    "https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/releases"
+  gh release create "$newtag" --generate-notes
   
   echo "Release $new_tag created."
 }
@@ -102,11 +81,6 @@ check_for_envs() {
 }
 
 check_for_programs() {
-  if ! command -v curl &> /dev/null; then
-    echo "You must have curl installed to use this orb."
-    exit 1
-  fi
-
   if [ "$(id -u)" == 0 ]; then 
     export SUDO=""
   else 
