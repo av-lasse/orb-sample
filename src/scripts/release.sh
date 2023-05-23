@@ -11,7 +11,7 @@ if ! command -v semver &> /dev/null; then
   chmod +x /usr/local/bin/semver
 fi
 
-#Get the PR number and extract the semver from the title
+#Get the latest PR number and extract the semver from the title
 pr_number=$(git log -1 --pretty=%s. | sed 's/^[^0-9]*\([0-9]\+\).*/\1/')
 semver_increment=$(gh pr view "$pr_number" --json title | sed -En 's/.*\[semver:(major|minor|patch|skip)\].*/\1/p')
 echo "SemVer increment: $semver_increment"
@@ -22,11 +22,14 @@ if [ -z "$semver_increment" ]; then
   echo "Note: To indicate intention to skip, include [semver:skip] in the commit subject instead."
 fi
 
-last_tag=$(git describe --tags --abbrev=0)
+last_tag=$( gh release view --json tagName --jq '.tagName')
+if [ -z "$semver_increment" ]; then
+  echo "could not find the last tag"
+  exit 1
+fi
 new_tag=$(semver bump "$semver_increment" "$last_tag")
 
 tag_prefix="v"
-
-echo "Creating Release $new_tag ."
+echo "Creating Release $tag_prefix$new_tag ."
 gh release create "$tag_prefix$new_tag" --generate-notes
-echo "Release $new_tag created."
+echo "Release $tag_prefix$new_tag created."
