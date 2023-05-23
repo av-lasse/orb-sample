@@ -9,7 +9,7 @@ if [[ $EUID == 0 ]]; then export SUDO=""; else export SUDO="sudo"; fi
 #check if semver is installed
 if ! command -v semver &> /dev/null; then
   echo "Installing semver"
-  $SUDO wget -qO- /usr/local/bin/semver https://raw.githubusercontent.com/fsaintjacques/semver-tool/master/src/semver
+  $SUDO wget -qO /usr/local/bin/semver https://raw.githubusercontent.com/fsaintjacques/semver-tool/master/src/semver
   $SUDO chmod +x /usr/local/bin/semver
 fi
 
