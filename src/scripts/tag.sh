@@ -13,6 +13,6 @@ else
 fi
 
 FINAL_TAG="v$NEW_TAG"
-#git tag "$FINAL_TAG"
-#git push origin "$FINAL_TAG"
+git tag "$FINAL_TAG"
+git push origin "$FINAL_TAG"
 echo "Tag $FINAL_TAG created."
