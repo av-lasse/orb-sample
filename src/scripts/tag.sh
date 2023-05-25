@@ -8,6 +8,7 @@ LAST_TAG=$(git tag -l --sort=-version:refname "${LAST_MAIN_TAG}"-"${CURRENT_BRAN
 echo "Lastest release $LAST_TAG"
 if [ -z "$LAST_TAG" ]; then
         echo "could not find the last tag"
+        echo "semver bump "${SEMVER_INCREMENT}" "${LAST_MAIN_TAG}"-"${CURRENT_BRANCH}""
         NEW_TAG=$(semver bump "${SEMVER_INCREMENT}" "${LAST_MAIN_TAG}"-"${CURRENT_BRANCH}")
 else
         NEW_TAG=$(semver bump "${SEMVER_INCREMENT}" "${LAST_TAG}")
