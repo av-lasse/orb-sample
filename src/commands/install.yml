@@ -3,12 +3,12 @@ description: >
 parameters:
   GH_CLI_VERSION:
     type: string
-    default: "2.3.0"
+    default: "2.29.0"
     description: Specify the full semver versioned tag to use.
 
 steps:
   - run:
       environment:
         GH_CLI_VERSION: <<parameters.GH_CLI_VERSION>>
-      name: Install GH CLI v<<parameters.version>>
+      name: Install GH CLI v<<parameters.GH_CLI_VERSION>>
       command: <<include(scripts/install.sh)>>

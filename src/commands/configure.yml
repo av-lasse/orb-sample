@@ -15,7 +15,7 @@ parameters:
 steps:
   - run:
       environment:
-        GH_TOKEN: <<parameters.token>>
-        GH_HOSTNAME: <<parameters.hostname>>
-      name: Configure GH CLI v<<parameters.version>>
+        GH_TOKEN: <<parameters.GH_TOKEN>>
+        GH_HOSTNAME: <<parameters.GH_HOSTNAME>>
+      name: Configure GH CLI
       command: <<include(scripts/configure.sh)>>
