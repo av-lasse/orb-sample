@@ -1,0 +1,14 @@
+description: >
+  This command installes the needed programs
+parameters:
+  GH_CLI_VERSION:
+    type: string
+    default: "2.3.0"
+    description: Specify the full semver versioned tag to use.
+
+steps:
+  - run:
+      environment:
+        GH_CLI_VERSION: <<parameters.GH_CLI_VERSION>>
+      name: Install GH CLI v<<parameters.version>>
+      command: <<include(scripts/install.sh)>>
