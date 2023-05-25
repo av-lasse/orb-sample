@@ -1,0 +1,10 @@
+description: >
+  This command creates a GitHub tag for dev branches.
+
+steps:
+  - install
+  - configure
+  - run:
+      name: Create a GitHub tag
+      command: << include(scripts/tag.sh) >>
+
