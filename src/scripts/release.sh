@@ -14,24 +14,28 @@ if ! command -v semver &> /dev/null; then
 fi
 
 #Get the latest PR number and extract the semver from the title
-pr_number=$(git log -1 --pretty=%s. | sed 's/^[^0-9]*\([0-9]\+\).*/\1/')
-semver_increment=$(gh pr view "$pr_number" --json title | sed -En 's/.*\[semver:(major|minor|patch|skip)\].*/\1/p')
-echo "SemVer increment: $semver_increment"
+PR_NUMBER=$(gh pr list --state merged --json number --jq '.[0].number' --base main)
+SEMVER_INCREMENT=$(gh pr view "$PR_NUMBER" --json title | sed -En 's/.*\[semver:(major|minor|patch|skip)\].*/\1/p')
 
-if [ -z "$semver_increment" ]; then
+echo "SemVer increment: $SEMVER_INCREMENT"
+
+if [ -z "$SEMVER_INCREMENT" ]; then
   echo "Commit subject did not indicate which SemVer increment to make."
   echo "To create the tag and release, you can ammend the commit or push another commit with [semver:INCREMENT] in the subject where INCREMENT is major, minor, patch."
   echo "Note: To indicate intention to skip, include [semver:skip] in the commit subject instead."
+  exit 1
 fi
 
-last_tag=$( gh release view --json tagName --jq '.tagName')
-if [ -z "$semver_increment" ]; then
+LAST_TAG=$( gh release view --json tagName --jq '.tagName')
+echo "Lastest release $LAST_TAG"
+if [ -z "$LAST_TAG" ]; then
   echo "could not find the last tag"
   exit 1
 fi
-new_tag=$(semver bump "$semver_increment" "$last_tag")
 
-tag_prefix="v"
-echo "Creating Release $tag_prefix$new_tag ."
-gh release create "$tag_prefix$new_tag" --generate-notes
-echo "Release $tag_prefix$new_tag created."
+NEW_TAG=$(semver bump ${SEMVER_INCREMENT} ${LAST_TAG})
+FINAL_TAG="v$NEW_TAG"
+
+echo "Creating Release $FINAL_TAG ."
+gh release create "$final_tag" --generate-notes
+echo "Release $FINAL_TAG created."
