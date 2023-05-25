@@ -33,9 +33,9 @@ if [ -z "$LAST_TAG" ]; then
   exit 1
 fi
 
-NEW_TAG=$(semver bump ${SEMVER_INCREMENT} ${LAST_TAG})
+NEW_TAG=$(semver bump "${SEMVER_INCREMENT}" "${LAST_TAG}")
 FINAL_TAG="v$NEW_TAG"
 
 echo "Creating Release $FINAL_TAG ."
-gh release create "$final_tag" --generate-notes
+gh release create "$FINAL_TAG" --generate-notes
 echo "Release $FINAL_TAG created."
