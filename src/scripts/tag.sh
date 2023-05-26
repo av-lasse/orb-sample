@@ -13,5 +13,5 @@ else
 fi
 
 FINAL_TAG="v$NEW_TAG"
-gh release create $FINAL_TAG --draft --generate-notes
+gh release create "$FINAL_TAG" --draft --generate-notes
 echo "Draft $FINAL_TAG created."
