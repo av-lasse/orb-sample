@@ -13,6 +13,5 @@ else
 fi
 
 FINAL_TAG="v$NEW_TAG"
-git tag "$FINAL_TAG"
-git push origin "$FINAL_TAG"
-echo "Tag $FINAL_TAG created."
+gh release create $FINAL_TAG --draft --generate-notes
+echo "Draft $FINAL_TAG created."
