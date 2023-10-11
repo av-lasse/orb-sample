@@ -15,20 +15,16 @@ parameters:
 
 steps:
   - run:
+      name: Set Environment Variables
+      command: |
+        export ECR_REGISTRY="${ecr-registry}"
+        export SERVICE="${service}"
+        export PULL_TAG="${pull-tag}"
+        export PUSH_TAGS="${push-tags}"
+  - run:
       name: Pull image for tagging
       command: |
         docker pull "${ecr-registry}/${service}:${pull-tag}"
   - run:
-      name: Tag image
-      command: |
-        IFS=',' read -ra push_tags \<<< "${push-tags}"
-        for tag in "${push_tags[@]}"; do
-          docker tag "${ecr-registry}/${service}:${pull-tag}" "${ecr-registry}/${service}:${tag}"
-        done
-  - run:
-      name: Push image
-      command: |
-        IFS=',' read -ra push_tags \<<< "${push-tags}"
-        for tag in "${push_tags[@]}"; do
-          docker push "${ecr-registry}/${service}:${tag}"
-        done
+      name: Tag image and push tags
+      command: << include(scripts/tag-and-push.sh) >>
