@@ -1,4 +1,4 @@
-description: tag docker images and push to ecr-registry
+description: Tag Docker images and push to ECR registry
 parameters:
   ecr-registry:
     type: string
@@ -15,20 +15,22 @@ parameters:
 
 steps:
   - run:
-      name: Pull the images for tagging
+      name: Pull image for tagging
       command: |
-        docker pull ${ecr-registry}/${service}:${pull-tag}
+        docker pull "${ecr-registry}/${service}:${pull-tag}"
+        
   - run:
       name: Tag image
       command: |
-        IFS=',' read -ra push_tags <<< "${push-tags}"
+        IFS=',' read -ra push_tags \<<< "${push-tags}"
         for tag in "${push_tags[@]}"; do
-          docker tag ${ecr-registry}/${service}:${tags} ${ecr-registry}/${service}:${push-tag}
+          docker tag "${ecr-registry}/${service}:${pull-tag}" "${ecr-registry}/${service}:${tag}"
         done
+
   - run:
       name: Push image
       command: |
-        IFS=',' read -ra push_tags <<< "${push-tags}"
+        IFS=',' read -ra push_tags \<<< "${push-tags}"
         for tag in "${push_tags[@]}"; do
-          docker push ${ecr-registry}/${service}:${tag}
+          docker push "${ecr-registry}/${service}:${tag}"
         done
