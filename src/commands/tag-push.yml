@@ -13,24 +13,22 @@ parameters:
     type: string
     default: 'latest,main,"$(date "+%d-%m-%Y")"' # Default push tags
 
-commands:
-  tag-push:
-    steps:
-      - run:
-          name: Pull the images for tagging
-          command: |
-            docker pull ${ecr-registry}/${service}:${pull-tag}
-      - run:
-          name: Tag image
-          command: |
-            IFS=',' read -ra push_tags <<< "${push-tags}"
-            for tag in "${push_tags[@]}"; do
-              docker tag ${ecr-registry}/${service}:${tags} ${ecr-registry}/${service}:${push-tag}
-            done
-      - run:
-          name: Push image
-          command: |
-            IFS=',' read -ra push_tags <<< "${push-tags}"
-            for tag in "${push_tags[@]}"; do
-              docker push ${ecr-registry}/${service}:${tag}
-            done
+steps:
+  - run:
+      name: Pull the images for tagging
+      command: |
+        docker pull ${ecr-registry}/${service}:${pull-tag}
+  - run:
+      name: Tag image
+      command: |
+        IFS=',' read -ra push_tags <<< "${push-tags}"
+        for tag in "${push_tags[@]}"; do
+          docker tag ${ecr-registry}/${service}:${tags} ${ecr-registry}/${service}:${push-tag}
+        done
+  - run:
+      name: Push image
+      command: |
+        IFS=',' read -ra push_tags <<< "${push-tags}"
+        for tag in "${push_tags[@]}"; do
+          docker push ${ecr-registry}/${service}:${tag}
+        done
