@@ -18,7 +18,6 @@ steps:
       name: Pull image for tagging
       command: |
         docker pull "${ecr-registry}/${service}:${pull-tag}"
-        
   - run:
       name: Tag image
       command: |
@@ -26,7 +25,6 @@ steps:
         for tag in "${push_tags[@]}"; do
           docker tag "${ecr-registry}/${service}:${pull-tag}" "${ecr-registry}/${service}:${tag}"
         done
-
   - run:
       name: Push image
       command: |
