@@ -21,7 +21,7 @@ steps:
   - run:
       name: Tag and push
       command: |
-        IFS=',' read -ra push_tags <<< "<< parameters.push-tags >>"
+        IFS=',' read -ra push_tags \<<< "<< parameters.push-tags >>"
         for tag in "${push_tags[@]}"; do
           docker tag << parameters.ecr-registry >>/<< parameters.service >>:<< parameters.pull-tag >> << parameters.ecr-registry >>/<< parameters.service >>:${tag}
           docker push << parameters.ecr-registry >>/<< parameters.service >>:${tag}
