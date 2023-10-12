@@ -9,7 +9,7 @@ parameters:
   pull-tag:
     type: string
     default: ''
-  push-tag:
+  push-tags:
     type: string
     default: 'latest'
 
