@@ -17,12 +17,12 @@ steps:
   - run:
       name: Pull image for tagging
       command: |
-        docker pull "${ecr-registry}/${service}:${pull-tag}"
+        docker pull << parameters.ecr-registry >>/<< parameters.service >>:<< parameters.pull-tag >>
   - run:
       name: Tag image
       command: |
-        docker tag "${ecr-registry}"/"${service}:${pull-tag}" "${ecr-registry}"/"${service}:${push-tag}"
+        docker tag << parameters.ecr-registry >>/<< parameters.service >>:<< parameters.pull-tag >> << parameters.ecr-registry >>/<< parameters.service >>:<< parameters.push-tag >>
   - run:
       name: Tag image
       command: |
-        docker push "${ecr-registry}"/"${service}:${push-tag}"
+        docker push << parameters.ecr-registry >>/<< parameters.service >>:<< parameters.push-tag >>
