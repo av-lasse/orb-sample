@@ -21,9 +21,8 @@ steps:
   - run:
       name: Tag image
       command: |
-        docker tag "${ecr-registry}"/"${service}:${pull-tag}" "${ecr-registry}"/"${service}:${push-tag}" 
+        docker tag "${ecr-registry}"/"${service}:${pull-tag}" "${ecr-registry}"/"${service}:${push-tag}"
   - run:
       name: Tag image
       command: |
-        docker push "${ecr-registry}"/"${service}:${push-tag}" 
-
+        docker push "${ecr-registry}"/"${service}:${push-tag}"
